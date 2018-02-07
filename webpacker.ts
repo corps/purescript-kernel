@@ -6,66 +6,51 @@ import * as path from "path";
 var WebpackOptionsDefaulter = require("webpack/lib/WebpackOptionsDefaulter");
 var WebpackOptionsApply = require("webpack/lib/WebpackOptionsApply");
 
-export class Webpacker {
-  constructor(public workingDir: string) {
-  }
+export function compile(workingDir: string, entryFile: string) {
+  let fullEntryPath = path.resolve(workingDir, entryFile);
+  let compiler = new webpack.Compiler();
+  let fs = createHybridFs();
 
-  addOrReplaceScript(entry: string, content: string) {
-    let fullEntryPath = path.resolve(this.workingDir, entry);
-    this.fs.memoryFs.mkdirpSync(path.dirname(fullEntryPath));
+  compiler.outputFileSystem = fs;
+  (compiler as any).inputFileSystem = fs;
 
-    this.fs.memoryFs.writeFileSync(fullEntryPath, content);
-  }
+  let options = {
+    entry: fullEntryPath,
+    output: {
+      path: path.resolve(workingDir, "build"),
+      filename: "built.js",
+    },
+    devtool: false,
+    context: workingDir,
+  } as webpack.Configuration;
 
-  run(entry: string, content: string) {
-    this.addOrReplaceScript(entry, content);
-    let fullEntryPath = path.resolve(this.workingDir, entry);
+  new WebpackOptionsDefaulter().process(options);
+  compiler.options = options;
+  (compiler as any).context = options.context;
+  new WebpackOptionsApply().process(options, compiler);
 
-    let compiler = new webpack.Compiler();
+  return new Promise<string>((resolve, reject) => {
+    compiler.run((err, stats) => {
+      if (err) {
+        reject(err);
+        return;
+      }
 
-    compiler.outputFileSystem = this.fs;
-    (compiler as any).inputFileSystem = this.fs;
+      if (stats.hasErrors()) {
+        reject(stats.toString());
+        return;
+      }
 
-    let options = {
-      entry: fullEntryPath,
-      output: {
-        path: path.resolve(this.workingDir, "build"),
-        filename: "built.js",
-      },
-      devtool: false,
-      context: this.workingDir,
-    } as webpack.Configuration;
-
-    new WebpackOptionsDefaulter().process(options);
-    compiler.options = options;
-    (compiler as any).context = options.context;
-    new WebpackOptionsApply().process(options, compiler);
-
-    return new Promise<string>((resolve, reject) => {
-      compiler.run((err, stats) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        if (stats.hasErrors()) {
-          reject(stats.toString());
-          return;
-        }
-
-        try {
-          resolve(this.fs.memoryFs.readFileSync(path.resolve(this.workingDir, "build/built.js"), "utf-8"));
-        } catch (e) {
-          reject(e);
-        }
-      });
-    })
-  }
-
-  fs = createCellFs();
+      try {
+        resolve(this.fs.memoryFs.readFileSync(path.resolve(this.workingDir, "build/built.js"), "utf-8"));
+      } catch (e) {
+        reject(e);
+      }
+    });
+  })
 }
 
-function createCellFs() {
+function createHybridFs() {
   let memoryFs = new MemoryFs();
   const result = {memoryFs};
   const config = result as any;
