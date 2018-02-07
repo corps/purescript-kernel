@@ -17,22 +17,22 @@ npmPackageAttr ? "package",
 }:
 
 npmPackage."${npmPackageAttr}".override (old: {
-  dontNpmInstall = true;
-  buildInputs = old.buildInputs ++ (with pkgs; [
-    purescript
-    rsync
-    zeromq
-  ]);
+   dontNpmInstall = true;
+   buildInputs = old.buildInputs ++ (with pkgs; [
+     purescript
+     rsync
+     zeromq
+   ]);
 
-  bowerComponents = pkgs.buildBowerComponents {
-    name = "bower-components";
-    generated = bowerPackageNix;
-    src = bowerJsonFile;
-  };
+   bowerComponents = pkgs.buildBowerComponents {
+     name = "bower-components";
+     generated = bowerPackageNix;
+     src = bowerJsonFile;
+   };
 
-  src = ./.;
+   src = ./.;
 
-  preRebuild = ''
-    make
-  '';
+   preRebuild = ''
+     make
+   '';
 })

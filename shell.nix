@@ -1,15 +1,17 @@
 {
 pkgs ? import <nixpkgs> {},
+nodejs ? pkgs."nodejs-6_x",
+stdenv ? pkgs.stdenv,
 }:
 
-(import ./default.nix {
-  inherit pkgs;
-}).override (old: {
-  buildInputs = old.buildInputs ++ (with pkgs; [ nodePackages.bower ]);
+stdenv.mkDerivation {
+  name = "purescript-webpack-bundle";
+  buildInputs = with pkgs; [ nodePackages.bower nodejs ];
 
   projectDir = toString ./.;
 
   shellHook = ''
-    export PATH=$projectDir/scripts:$PATH
+    export PATH=$projectDir/scripts:$projectDir/node_modules/.bin:$PATH
+    make node_modules
   '';
-})
+}

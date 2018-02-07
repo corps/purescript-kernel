@@ -1,7 +1,6 @@
 // var Message = require("jmp").Message; // IPython/Jupyter protocol message
 // var Socket = require("jmp").Socket; // IPython/Jupyter protocol socket
 // var zmq = require("jmp").zmq; // ZMQ bindings
-
 import {CompleteContent, ExecuteContent, Message, Socket, ShutdownContent} from "jmp";
 import * as zeromq from "zeromq";
 import {CellScript, LanguageServiceHost, CompletionResult} from "./typescript-host";
@@ -316,3 +315,29 @@ export class Kernel {
     this.curScript = this.languageHost.addOrReplaceScript(new CellScript(0));
   }
 }
+
+if (!process.env.DEBUG) {
+  console.log = function () {
+  }
+}
+
+
+let workingDir = process.argv[2] || process.cwd();
+let connectionFile = process.argv[3];
+
+if (!connectionFile || !fs.existsSync(connectionFile)) {
+  throw new Error("Could not find connection file " + connectionFile);
+}
+
+let connection = JSON.parse(fs.readFileSync(connectionFile, "utf-8"));
+
+let kernel = new Kernel({workingDir, connection});
+
+kernel.start();
+
+process.on("SIGINT", function() {
+  console.warn("Received SIGINT, Restarting kernel...");
+  kernel.restart();
+});
+
+setInterval(function() {}, 10000000);

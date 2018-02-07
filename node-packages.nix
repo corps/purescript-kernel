@@ -4,6 +4,15 @@
 
 let
   sources = {
+    "@types/memory-fs-0.3.0" = {
+      name = "_at_types_slash_memory-fs";
+      packageName = "@types/memory-fs";
+      version = "0.3.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@types/memory-fs/-/memory-fs-0.3.0.tgz";
+        sha1 = "847596a94f9a9688a2e342f4017fcc0050e8e2da";
+      };
+    };
     "@types/node-8.5.10" = {
       name = "_at_types_slash_node";
       packageName = "@types/node";
@@ -29,6 +38,15 @@ let
       src = fetchurl {
         url = "https://registry.npmjs.org/jmp/-/jmp-0.7.6.tgz";
         sha1 = "f6284d2234f2d8736a47103563d89778988e59b7";
+      };
+    };
+    "memory-fs-0.4.1" = {
+      name = "memory-fs";
+      packageName = "memory-fs";
+      version = "0.4.1";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/memory-fs/-/memory-fs-0.4.1.tgz";
+        sha1 = "3a9a20b8462523e447cfbc7e8bb80ed667bfc552";
       };
     };
     "webpack-3.10.0" = {
@@ -83,6 +101,96 @@ let
       src = fetchurl {
         url = "https://registry.npmjs.org/uuid/-/uuid-3.2.1.tgz";
         sha512 = "0843vl1c974n8kw5kn0kvhvhwk8y8jydr0xkwwl2963xxmkw4ingk6xj9c8m48jw2i95giglxzq5aw5v5mij9kv7fzln8pxav1cr6cd";
+      };
+    };
+    "errno-0.1.6" = {
+      name = "errno";
+      packageName = "errno";
+      version = "0.1.6";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/errno/-/errno-0.1.6.tgz";
+        sha512 = "0vny3xisd56kx193rhv6vpccjxlajjn9ss5wk96l1ya8zbpkwbjrrgrm9wpfm3xc8apx8z9xb0kjkw0y5qnc6gy1hf2qsas79093hr2";
+      };
+    };
+    "readable-stream-2.3.3" = {
+      name = "readable-stream";
+      packageName = "readable-stream";
+      version = "2.3.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.3.tgz";
+        sha512 = "1wlizkv2wnz2nyb0lfxgs1m27zzcvasp3n5cfrd7hm4ch1wn79df2nbhzfadba5qqdfb28vhmw3drhp46vk2q6xk524qagvr76v7slv";
+      };
+    };
+    "prr-1.0.1" = {
+      name = "prr";
+      packageName = "prr";
+      version = "1.0.1";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/prr/-/prr-1.0.1.tgz";
+        sha1 = "d3fc114ba06995a45ec6893f484ceb1d78f5f476";
+      };
+    };
+    "core-util-is-1.0.2" = {
+      name = "core-util-is";
+      packageName = "core-util-is";
+      version = "1.0.2";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz";
+        sha1 = "b5fd54220aa2bc5ab57aab7140c940754503c1a7";
+      };
+    };
+    "inherits-2.0.3" = {
+      name = "inherits";
+      packageName = "inherits";
+      version = "2.0.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/inherits/-/inherits-2.0.3.tgz";
+        sha1 = "633c2c83e3da42a502f52466022480f4208261de";
+      };
+    };
+    "isarray-1.0.0" = {
+      name = "isarray";
+      packageName = "isarray";
+      version = "1.0.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz";
+        sha1 = "bb935d48582cba168c06834957a54a3e07124f11";
+      };
+    };
+    "process-nextick-args-1.0.7" = {
+      name = "process-nextick-args";
+      packageName = "process-nextick-args";
+      version = "1.0.7";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-1.0.7.tgz";
+        sha1 = "150e20b756590ad3f91093f25a4f2ad8bff30ba3";
+      };
+    };
+    "safe-buffer-5.1.1" = {
+      name = "safe-buffer";
+      packageName = "safe-buffer";
+      version = "5.1.1";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.1.1.tgz";
+        sha512 = "1p28rllll1w65yzq5azi4izx962399xdsdlfbaynn7vmp981hiss05jhiy9hm7sbbfk3b4dhlcv0zy07fc59mnc07hdv6wcgqkcvawh";
+      };
+    };
+    "string_decoder-1.0.3" = {
+      name = "string_decoder";
+      packageName = "string_decoder";
+      version = "1.0.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/string_decoder/-/string_decoder-1.0.3.tgz";
+        sha512 = "22vw5mmwlyblqc2zyqwl39wyhyahhpiyknim8iz5fk6xi002x777gkswiq8fh297djs5ii4pgrys57wq33hr5zf3xfd0d7kjxkzl0g0";
+      };
+    };
+    "util-deprecate-1.0.2" = {
+      name = "util-deprecate";
+      packageName = "util-deprecate";
+      version = "1.0.2";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz";
+        sha1 = "450d4dc9fa70de732762fbd2d4a28981419a0ccf";
       };
     };
     "acorn-5.4.1" = {
@@ -191,15 +299,6 @@ let
       src = fetchurl {
         url = "https://registry.npmjs.org/loader-utils/-/loader-utils-1.1.0.tgz";
         sha1 = "c98aef488bcceda2ffb5e2de646d6a754429f5cd";
-      };
-    };
-    "memory-fs-0.4.1" = {
-      name = "memory-fs";
-      packageName = "memory-fs";
-      version = "0.4.1";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/memory-fs/-/memory-fs-0.4.1.tgz";
-        sha1 = "3a9a20b8462523e447cfbc7e8bb80ed667bfc552";
       };
     };
     "mkdirp-0.5.1" = {
@@ -461,96 +560,6 @@ let
       src = fetchurl {
         url = "https://registry.npmjs.org/emojis-list/-/emojis-list-2.1.0.tgz";
         sha1 = "4daa4d9db00f9819880c79fa457ae5b09a1fd389";
-      };
-    };
-    "errno-0.1.6" = {
-      name = "errno";
-      packageName = "errno";
-      version = "0.1.6";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/errno/-/errno-0.1.6.tgz";
-        sha512 = "0vny3xisd56kx193rhv6vpccjxlajjn9ss5wk96l1ya8zbpkwbjrrgrm9wpfm3xc8apx8z9xb0kjkw0y5qnc6gy1hf2qsas79093hr2";
-      };
-    };
-    "readable-stream-2.3.3" = {
-      name = "readable-stream";
-      packageName = "readable-stream";
-      version = "2.3.3";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.3.tgz";
-        sha512 = "1wlizkv2wnz2nyb0lfxgs1m27zzcvasp3n5cfrd7hm4ch1wn79df2nbhzfadba5qqdfb28vhmw3drhp46vk2q6xk524qagvr76v7slv";
-      };
-    };
-    "prr-1.0.1" = {
-      name = "prr";
-      packageName = "prr";
-      version = "1.0.1";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/prr/-/prr-1.0.1.tgz";
-        sha1 = "d3fc114ba06995a45ec6893f484ceb1d78f5f476";
-      };
-    };
-    "core-util-is-1.0.2" = {
-      name = "core-util-is";
-      packageName = "core-util-is";
-      version = "1.0.2";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz";
-        sha1 = "b5fd54220aa2bc5ab57aab7140c940754503c1a7";
-      };
-    };
-    "inherits-2.0.3" = {
-      name = "inherits";
-      packageName = "inherits";
-      version = "2.0.3";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/inherits/-/inherits-2.0.3.tgz";
-        sha1 = "633c2c83e3da42a502f52466022480f4208261de";
-      };
-    };
-    "isarray-1.0.0" = {
-      name = "isarray";
-      packageName = "isarray";
-      version = "1.0.0";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz";
-        sha1 = "bb935d48582cba168c06834957a54a3e07124f11";
-      };
-    };
-    "process-nextick-args-1.0.7" = {
-      name = "process-nextick-args";
-      packageName = "process-nextick-args";
-      version = "1.0.7";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-1.0.7.tgz";
-        sha1 = "150e20b756590ad3f91093f25a4f2ad8bff30ba3";
-      };
-    };
-    "safe-buffer-5.1.1" = {
-      name = "safe-buffer";
-      packageName = "safe-buffer";
-      version = "5.1.1";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.1.1.tgz";
-        sha512 = "1p28rllll1w65yzq5azi4izx962399xdsdlfbaynn7vmp981hiss05jhiy9hm7sbbfk3b4dhlcv0zy07fc59mnc07hdv6wcgqkcvawh";
-      };
-    };
-    "string_decoder-1.0.3" = {
-      name = "string_decoder";
-      packageName = "string_decoder";
-      version = "1.0.3";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/string_decoder/-/string_decoder-1.0.3.tgz";
-        sha512 = "22vw5mmwlyblqc2zyqwl39wyhyahhpiyknim8iz5fk6xi002x777gkswiq8fh297djs5ii4pgrys57wq33hr5zf3xfd0d7kjxkzl0g0";
-      };
-    };
-    "util-deprecate-1.0.2" = {
-      name = "util-deprecate";
-      packageName = "util-deprecate";
-      version = "1.0.2";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz";
-        sha1 = "450d4dc9fa70de732762fbd2d4a28981419a0ccf";
       };
     };
     "minimist-0.0.8" = {
@@ -2603,15 +2612,27 @@ let
     version = "1.0.0";
     src = ./.;
     dependencies = [
+      sources."@types/memory-fs-0.3.0"
       sources."@types/node-8.5.10"
       sources."@types/webpack-3.8.5"
       sources."jmp-0.7.6"
+      sources."memory-fs-0.4.1"
       sources."webpack-3.10.0"
       sources."zeromq-4.6.0"
       sources."@types/tapable-0.2.4"
       sources."@types/uglify-js-2.6.30"
       sources."source-map-0.6.1"
       sources."uuid-3.2.1"
+      sources."errno-0.1.6"
+      sources."readable-stream-2.3.3"
+      sources."prr-1.0.1"
+      sources."core-util-is-1.0.2"
+      sources."inherits-2.0.1"
+      sources."isarray-1.0.0"
+      sources."process-nextick-args-1.0.7"
+      sources."safe-buffer-5.1.1"
+      sources."string_decoder-1.0.3"
+      sources."util-deprecate-1.0.2"
       sources."acorn-4.0.13"
       sources."acorn-dynamic-import-2.0.2"
       sources."ajv-5.5.2"
@@ -2624,7 +2645,6 @@ let
       sources."json5-0.5.1"
       sources."loader-runner-2.3.0"
       sources."loader-utils-1.1.0"
-      sources."memory-fs-0.4.1"
       sources."mkdirp-0.5.1"
       sources."node-libs-browser-2.1.0"
       sources."supports-color-4.5.0"
@@ -2652,16 +2672,6 @@ let
       sources."event-emitter-0.3.5"
       sources."big.js-3.2.0"
       sources."emojis-list-2.1.0"
-      sources."errno-0.1.6"
-      sources."readable-stream-2.3.3"
-      sources."prr-1.0.1"
-      sources."core-util-is-1.0.2"
-      sources."inherits-2.0.1"
-      sources."isarray-1.0.0"
-      sources."process-nextick-args-1.0.7"
-      sources."safe-buffer-5.1.1"
-      sources."string_decoder-1.0.3"
-      sources."util-deprecate-1.0.2"
       sources."minimist-1.2.0"
       sources."assert-1.4.1"
       sources."browserify-zlib-0.2.0"
