@@ -1,0 +1,21 @@
+{
+  "name": "purescript-webpack-kernel",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Zach Collins <recursive.cookie.jar@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "purescript-prelude": "~3.1.0"
+  }
+}

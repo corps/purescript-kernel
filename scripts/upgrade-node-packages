@@ -1,0 +1,5 @@
+#!/usr/bin/env nix-shell
+#! nix-shell -i bash -p nodePackages.node2nix
+
+cd $projectDir
+exec node2nix -6 -i package.json --composition npm-package.nix --supplement-input global-npm-packages.json

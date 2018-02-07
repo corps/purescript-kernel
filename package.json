@@ -1,0 +1,22 @@
+{
+  "name": "purescript-webpack-kernel",
+  "version": "1.0.0",
+  "description": "Purescript + webpack jupyter kernel",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/corps/purescript-webpack-kernel.git"
+  },
+  "author": "Zachary Collins <recursive.cookie.jar@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/corps/purescript-webpack-kernel/issues"
+  },
+  "homepage": "https://github.com/corps/purescript-webpack-kernel#readme",
+  "dependencies": {
+    "@types/node": "^8.0.7",
+    "@types/webpack": "^3.0.1",
+    "jmp": "^0.7.5",
+    "webpack": "^3.0.0",
+    "zeromq": "^4.5.0"
+  }
+}
