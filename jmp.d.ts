@@ -20,11 +20,11 @@ declare module "jmp" {
     version: string
   }
 
-  export class Message {
+  export class Message<ContentType = object> {
     header: MessageHeader;
     parent_header: MessageHeader;
     metadata: object;
-    content: object;
+    content: ContentType;
     buffers: object[];
     idents: object[];
 

@@ -2,14 +2,34 @@ import webpack = require("webpack");
 import MemoryFs = require("memory-fs");
 import * as fs from "fs";
 import * as path from "path";
+import { CellScript } from "./purescript-ide";
 
 var WebpackOptionsDefaulter = require("webpack/lib/WebpackOptionsDefaulter");
 var WebpackOptionsApply = require("webpack/lib/WebpackOptionsApply");
 
-export function compile(workingDir: string, entryFile: string) {
-  let fullEntryPath = path.resolve(workingDir, entryFile);
+export function compile(projectDir: string, entryScript: CellScript) {
+  let fullEntryPath = path.resolve(projectDir, "src", "entry.js");
   let compiler = new webpack.Compiler();
   let fs = createHybridFs();
+
+  fs.memoryFs.writeFileSync(fullEntryPath, `
+var divId = ${JSON.stringify(entryScript.divId)};
+var div = document.getElementById(divId);
+window.HtmlContentSignal = {};
+
+var module = require(${"./" + JSON.stringify(entryScript.moduleName)});
+
+var main = module.main;
+if (module.mainWithDiv) {
+  main = module.mainWithDivId(div);
+}
+
+if (typeof main == "function") {
+  main();
+} else {
+  console.log(main);
+}
+`);
 
   compiler.outputFileSystem = fs;
   (compiler as any).inputFileSystem = fs;
@@ -17,11 +37,11 @@ export function compile(workingDir: string, entryFile: string) {
   let options = {
     entry: fullEntryPath,
     output: {
-      path: path.resolve(workingDir, "build"),
+      path: path.resolve(projectDir, "build"),
       filename: "built.js",
     },
     devtool: false,
-    context: workingDir,
+    context: projectDir,
   } as webpack.Configuration;
 
   new WebpackOptionsDefaulter().process(options);
@@ -42,7 +62,7 @@ export function compile(workingDir: string, entryFile: string) {
       }
 
       try {
-        resolve(this.fs.memoryFs.readFileSync(path.resolve(this.workingDir, "build/built.js"), "utf-8"));
+        resolve(this.fs.memoryFs.readFileSync(path.resolve(this.projectDir, "build/built.js"), "utf-8"));
       } catch (e) {
         reject(e);
       }

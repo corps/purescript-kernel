@@ -6,7 +6,7 @@ stdenv ? pkgs.stdenv,
 
 stdenv.mkDerivation {
   name = "purescript-webpack-bundle";
-  buildInputs = with pkgs; [ nodePackages.bower nodejs ];
+  buildInputs = with pkgs; [ nodePackages.bower nodejs purescript ];
 
   projectDir = toString ./.;
 
