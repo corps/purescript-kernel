@@ -24,12 +24,13 @@ function runSpawn(
     let ps = spawn(command, args, {cwd});
     let stdout = "";
     let stderr = "";
-    ps.stderr.on("data", (data: string) => {
-      stdout += data;
+    console.log("running", command, ...args, stdin);
+    ps.stderr.on("data", (data: Buffer) => {
+      stderr += data.toString("utf8");
     });
 
-    ps.stdout.on("data", (data: string) => {
-      stderr += data;
+    ps.stdout.on("data", (data: Buffer) => {
+      stdout += data.toString("utf8");
     });
 
     ps.on("close", (status: number) => {
@@ -38,6 +39,8 @@ function runSpawn(
         return;
       }
 
+      console.log(stderr);
+      console.log(stdout);
       resolve(stdout);
     });
 
@@ -74,7 +77,7 @@ export function startServerAndClient(
     );
     fs.mkdirSync(path.join(projectDir, "src"));
 
-    return runSpawn("purs", ["compile", "node_modules/**/*.purs"], projectDir)
+    return runSpawn("purs", ["compile", "bower_components/**/*.purs"], projectDir)
       .then(() => {
         return findPort({min: 4250, max: 6000});
       })
@@ -91,9 +94,16 @@ export function startServerAndClient(
 
         return new Promise<PursIdeClient>((resolve, reject) => {
           setTimeout(() => {
-            new PursIdeClient(projectDir, serverPs, port)
-              .load()
-              .then(resolve, reject);
+            try {
+              new PursIdeClient(projectDir, serverPs, port)
+                .load()
+                .then(resolve, reject).then(v => {
+                  console.log("hmm", v);
+                  return v;
+                });
+            } catch(e) {
+              reject(e);
+            }
           }, 200);
         });
       });
@@ -124,7 +134,7 @@ export class PursIdeClient {
         clearTimeout(timeout);
         resolve();
       });
-      this.serverProcess.kill("SIGINT");
+      this.serverProcess.kill("SIGTERM");
       return;
     });
   }
@@ -134,8 +144,9 @@ export class PursIdeClient {
       "purs",
       ["ide", "client", "-p", this.serverPort + ""],
       this.projectDir,
-      JSON.stringify(data)
+      JSON.stringify(data) + "\n"
     ).then(output => {
+      console.log("parsing it");
       return JSON.parse(output);
     });
   }

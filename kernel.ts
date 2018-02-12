@@ -343,6 +343,7 @@ export class Kernel {
     }
 
     this.nextIde = startServerAndClient(this.config.workingDir).then(ide => {
+      console.log("ide has been loaded", ide);
       this.pursIde = ide;
       this.nextIde = null;
       return ide;
@@ -352,9 +353,9 @@ export class Kernel {
   }
 }
 
-if (!process.env.DEBUG) {
-  console.log = function() {};
-}
+// if (!process.env.DEBUG) {
+//   console.log = function() {};
+// }
 
 let workingDir = process.argv[2];
 let connectionFile = process.argv[3];
