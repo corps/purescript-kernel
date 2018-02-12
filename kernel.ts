@@ -356,7 +356,7 @@ if (!process.env.DEBUG) {
   console.log = function() {};
 }
 
-let workingDir = process.argv[2] || process.cwd();
+let workingDir = process.argv[2];
 let connectionFile = process.argv[3];
 
 if (!connectionFile || !fs.existsSync(connectionFile)) {

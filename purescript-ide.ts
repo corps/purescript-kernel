@@ -64,12 +64,12 @@ export function startServerAndClient(
   workingDir: string
 ): Promise<PursIdeClient> {
   return mkTempDir().then(projectDir => {
-    fs.linkSync(
+    fs.symlinkSync(
       path.resolve(path.join(workingDir, "node_modules")),
       path.join(projectDir, "node_modules")
     );
-    fs.linkSync(
-      path.resolve(path.join(workingDir, "node_modules")),
+    fs.symlinkSync(
+      path.resolve(path.join(workingDir, "bower_components")),
       path.join(projectDir, "bower_components")
     );
     fs.mkdirSync(path.join(projectDir, "src"));

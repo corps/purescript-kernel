@@ -8,10 +8,14 @@ jupyterConfig ? ''
   # c.NotebookApp.disable_check_xsrf = True
   c.NotebookApp.token = ""
 '',
+nodejs ? pkgs.nodejs,
 bash ? pkgs.bash,
 python ? pkgs.python35,
 stdenv ? pkgs.stdenv,
-tmpDir ? "/tmp",
+packaged ? import ./. {},
+workingDir ? "${packaged}/lib/node_modules/purescript-webpack-kernel/",
+kernelJs ? "${packaged}/lib/node_modules/purescript-webpack-kernel/kernel.js",
+purescript ? pkgs.purescript,
 }:
 
 let
@@ -23,25 +27,25 @@ pynb = python.buildEnv.override {
 in
 
 rec {
-  jupyterConfigFile = writeText "jupyter_config.py" jupyterConfig;    
+  jupyterConfigFile = writeText "jupyter_config.py" jupyterConfig;
   kernelJsonFile = writeText "kernel.json" (builtins.toJSON {
     display_name = "Purescript / Webpack Bundle";
     language = "purescript";
-    argv = [ tmpDir "{connection_file}" ];
+    argv = [ "${nodejs}/bin/node" kernelJs workingDir "{connection_file}" ];
   });
-  jupyterDir = stdenv.mkDerivation {
+  kernelPackage = stdenv.mkDerivation {
     name = "kernels";
     phases = [ "installPhase" ];
     installPhase = ''
-      mkdir -p $out/kernels/${kernelName}/
-      cp ${kernelJsonFile} $out/kernels/${kernelName}/kernel.json
+      mkdir -p $out/share/jupyter/kernels/${kernelName}/
+      cp ${kernelJsonFile} $out/share/jupyter/kernels/${kernelName}/kernel.json
     '';
   };
-  jupyterWrapper = writeScriptBin "psbook" ''
+  psbook = writeScriptBin "psbook" ''
     #!${bash}/bin/bash
 
-    cd ${jupyterDir}
-    export JUPYTER_PATH=$PWD
+    export JUPYTER_PATH=${kernelPackage}/share/jupyter
+    export PATH=${purescript}/bin:$PATH
     exec ${pynb}/bin/ipython notebook --config=${jupyterConfigFile} $@
   '';
 }
