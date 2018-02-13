@@ -77,7 +77,11 @@ export function startServerAndClient(
     );
     fs.mkdirSync(path.join(projectDir, "src"));
 
-    return runSpawn("purs", ["compile", "bower_components/**/*.purs"], projectDir)
+    return runSpawn(
+      "purs",
+      ["compile", "bower_components/**/*.purs"],
+      projectDir
+    )
       .then(() => {
         return findPort({min: 4250, max: 6000});
       })
@@ -92,19 +96,10 @@ export function startServerAndClient(
           {cwd: projectDir}
         );
 
-        return new Promise<PursIdeClient>((resolve, reject) => {
-          setTimeout(() => {
-            try {
-              new PursIdeClient(projectDir, serverPs, port)
-                .load()
-                .then(resolve, reject).then(v => {
-                  console.log("hmm", v);
-                  return v;
-                });
-            } catch(e) {
-              reject(e);
-            }
-          }, 200);
+        return new Promise<void>((resolve, reject) => {
+          setTimeout(resolve, 200);
+        }).then(() => {
+          return new PursIdeClient(projectDir, serverPs, port).load();
         });
       });
   });
@@ -124,12 +119,13 @@ export class PursIdeClient {
   }
 
   dispose(): Promise<void> {
-    if (this.serverProcess.killed) {
-      return Promise.resolve();
-    }
-
     return new Promise((resolve, reject) => {
-      let timeout = setTimeout(() => reject(), 1000 * 10);
+      if (this.serverProcess.killed) {
+        resolve();
+        return;
+      }
+
+      let timeout = setTimeout(reject, 1000 * 10);
       this.serverProcess.on("close", () => {
         clearTimeout(timeout);
         resolve();
@@ -146,7 +142,6 @@ export class PursIdeClient {
       this.projectDir,
       JSON.stringify(data) + "\n"
     ).then(output => {
-      console.log("parsing it");
       return JSON.parse(output);
     });
   }
@@ -168,6 +163,22 @@ export class PursIdeClient {
           file: file,
           actualFile: file,
         },
+      }).then(result => {
+        if (result.resultType != "success") {
+          let errors = ["purs rebuild failed:"];
+          for (let suggestion of result.suggestions) {
+            if (suggestion.message) {
+              for (let line of suggestion.messsage.split("\n")) {
+                errors.push(line);
+              }
+            }
+            if (suggestion.position) {
+              errors.push("@" + JSON.stringify(suggestion.position));
+            }
+          }
+
+          throw new Error(errors.join("\n"));
+        }
       });
     }
 
@@ -242,12 +253,7 @@ export class PursIdeClient {
       },
     }).then(completes => {
       if (completes.length > 0) {
-        let {
-          identifier,
-          type,
-          exportedFrom,
-          documentation,
-        } = completes[0];
+        let {identifier, type, exportedFrom, documentation} = completes[0];
         return {
           details: [
             "<b>" + identifier + "</b> from " + (exportedFrom || "unknown"),

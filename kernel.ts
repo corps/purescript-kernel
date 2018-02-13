@@ -189,7 +189,7 @@ export class Kernel {
       return this.pursIde
         .rebuild(executingScript)
         .then(() => {
-          compile(this.pursIde.projectDir, executingScript);
+          return compile(this.pursIde.projectDir, executingScript);
         })
         .then(jsCode => {
           request.respond(this.shellSocket, "execute_reply", {
@@ -338,16 +338,16 @@ export class Kernel {
   restart(): Promise<PursIdeClient> {
     if (this.running()) {
       this.stop();
-    } else if (this.nextIde) {
-      return this.nextIde;
     }
 
-    this.nextIde = startServerAndClient(this.config.workingDir).then(ide => {
-      console.log("ide has been loaded", ide);
-      this.pursIde = ide;
-      this.nextIde = null;
-      return ide;
-    });
+    if (this.nextIde == null) {
+      this.nextIde = startServerAndClient(this.config.workingDir).then(ide => {
+        console.log("ide has been loaded", !!ide);
+        this.pursIde = ide;
+        this.nextIde = null;
+        return ide;
+      });
+    }
 
     return this.nextIde;
   }

@@ -8,16 +8,17 @@ var WebpackOptionsDefaulter = require("webpack/lib/WebpackOptionsDefaulter");
 var WebpackOptionsApply = require("webpack/lib/WebpackOptionsApply");
 
 export function compile(projectDir: string, entryScript: CellScript) {
-  let fullEntryPath = path.resolve(projectDir, "src", "entry.js");
+  let fullEntryPath = path.resolve(projectDir, "output", "entry.js");
   let compiler = new webpack.Compiler();
   let fs = createHybridFs();
 
+  fs.memoryFs.mkdirpSync(path.dirname(fullEntryPath));
   fs.memoryFs.writeFileSync(fullEntryPath, `
 var divId = ${JSON.stringify(entryScript.divId)};
 var div = document.getElementById(divId);
 window.HtmlContentSignal = {};
 
-var module = require(${"./" + JSON.stringify(entryScript.moduleName)});
+var module = require(${JSON.stringify("./" + entryScript.moduleName)});
 
 var main = module.main;
 if (module.mainWithDiv) {
@@ -62,7 +63,7 @@ if (typeof main == "function") {
       }
 
       try {
-        resolve(this.fs.memoryFs.readFileSync(path.resolve(this.projectDir, "build/built.js"), "utf-8"));
+        resolve(fs.memoryFs.readFileSync(path.resolve(projectDir, "build/built.js"), "utf-8"));
       } catch (e) {
         reject(e);
       }
