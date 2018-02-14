@@ -26,10 +26,10 @@ if (module.mainWithDiv) {
 }
 
 if (typeof main == "function") {
-  main();
-} else {
-  console.log(main);
+  main = main();
 }
+
+console.log(main);
 `);
 
   compiler.outputFileSystem = fs;

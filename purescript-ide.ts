@@ -14,6 +14,27 @@ export interface InspectResult {
   details: string;
 }
 
+export interface Position {
+  startLine: number
+  endLine: number
+  startColumn: number
+  endColumn: number
+}
+
+export interface RebuildRow {
+  suggestion: { replaceRange: Position, replacement: string } | void;
+  moduleName: string
+  errorLink: string
+  errorCode: string
+  message: string
+  position: Position | void
+}
+
+export interface RebuildResult {
+  result: RebuildRow[]
+  resultType: "success" | "error"
+}
+
 function runSpawn(
   command: string,
   args: string[],
@@ -79,7 +100,7 @@ export function startServerAndClient(
 
     return runSpawn(
       "purs",
-      ["compile", "bower_components/**/*.purs"],
+      ["compile", "bower_components/purescript-*/src/**/*.purs"],
       projectDir
     )
       .then(() => {
@@ -163,17 +184,15 @@ export class PursIdeClient {
           file: file,
           actualFile: file,
         },
-      }).then(result => {
+      }).then((result: RebuildResult) => {
         if (result.resultType != "success") {
-          let errors = ["purs rebuild failed:"];
-          for (let suggestion of result.suggestions) {
-            if (suggestion.message) {
-              for (let line of suggestion.messsage.split("\n")) {
-                errors.push(line);
-              }
-            }
-            if (suggestion.position) {
-              errors.push("@" + JSON.stringify(suggestion.position));
+          let errors = [] as string[];
+          for (let row of result.result) {
+            errors.push("Module " + row.moduleName + ": " + row.errorCode);
+            errors.push(row.message);
+            errors.push(row.errorLink);
+            if (row.suggestion) {
+              errors.push("Try " + row.suggestion.replacement);
             }
           }
 

@@ -5,7 +5,7 @@ kernel: output kernel.js
 kernel.js: kernel.ts
 	tsc
 output: bower_components
-	purs compile bower_components/**/*.purs
+	purs compile "bower_components/purescript-*/src/**/*.purs"
 
 bower_components:
 	cp --reflink=auto --no-preserve=mode -R $(bowerComponents)/bower_components .

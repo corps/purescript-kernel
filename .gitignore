@@ -6,3 +6,4 @@ bower_components/
 .ipynb_checkpoints/
 *.ipynb
 result
+output
