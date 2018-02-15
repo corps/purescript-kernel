@@ -39,7 +39,8 @@ npmPackage."${npmPackageAttr}".override (old: {
    src = ./.;
 
    preRebuild = ''
-     make clean
+     cp --reflink=auto --no-preserve=mode -R $bowerComponents/bower_components .
+     make clean_keep_packages
      make
      mkdir -p kernels
      make KERNELS_DIR=$PWD/kernels install

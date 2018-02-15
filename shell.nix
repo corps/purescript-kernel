@@ -31,7 +31,8 @@ stdenv.mkDerivation {
   shellHook = ''
     export PATH=$projectDir/scripts:$projectDir/node_modules/.bin:$PATH
     make node_modules
-    echo Run 'bower install' to create a local copy of bower packages.
-    echo Otherwise, make will copy a read only version from the nix store.
+    make bower_components
+    echo "If you change package.json or bower.json"
+    echo "You should run make packages to update the nix expressions"
   '';
 }
