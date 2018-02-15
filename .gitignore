@@ -7,3 +7,5 @@ bower_components/
 *.ipynb
 result
 output
+purescript-webpack
+kernels

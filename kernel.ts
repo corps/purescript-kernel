@@ -265,7 +265,7 @@ export class Kernel {
       this.reportExecutionState(request, "busy");
       let finish = this.reportExecutionState.bind(this, request, "idle");
       handler.call(this, request).then(finish, (e: Error) => {
-        console.error(e, e.stack);
+        if(e) console.error(e, e.stack);
         finish();
       });
     } catch (e) {
@@ -353,9 +353,9 @@ export class Kernel {
   }
 }
 
-// if (!process.env.DEBUG) {
-//   console.log = function() {};
-// }
+if (!process.env.DEBUG) {
+  console.log = function() {};
+}
 
 let workingDir = process.argv[2];
 let connectionFile = process.argv[3];

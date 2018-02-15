@@ -14,14 +14,20 @@ bowerJsonFile ?  stdenv.mkDerivation {
   },
 npmPackage ? import ./npm-package.nix { inherit nodejs; },
 npmPackageAttr ? "package",
+purescript ? pkgs.purescript,
+rsync ? pkgs.rsync,
+zeromq ? pkgs.zeromq,
+which ? pkgs.which
 }:
 
 npmPackage."${npmPackageAttr}".override (old: {
    dontNpmInstall = true;
-   buildInputs = old.buildInputs ++ (with pkgs; [
+   buildInputs = old.buildInputs ++ ([
+     nodejs
      purescript
      rsync
      zeromq
+     which
    ]);
 
    bowerComponents = pkgs.buildBowerComponents {
@@ -33,6 +39,9 @@ npmPackage."${npmPackageAttr}".override (old: {
    src = ./.;
 
    preRebuild = ''
+     make clean
      make
+     mkdir -p kernels
+     make KERNELS_DIR=$PWD/kernels install
    '';
 })

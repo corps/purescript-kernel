@@ -2,6 +2,8 @@
 pkgs ? import <nixpkgs> {},
 nodejs ? pkgs."nodejs-6_x",
 stdenv ? pkgs.stdenv,
+bower ? pkgs.nodePackages.bower,
+purescript ? pkgs.purescript,
 bowerPackageNix ? ./bower-package.nix,
 bowerJsonFile ?  stdenv.mkDerivation {
     name = "bower.json";
@@ -16,7 +18,7 @@ bowerJsonFile ?  stdenv.mkDerivation {
 
 stdenv.mkDerivation {
   name = "purescript-webpack-bundle";
-  buildInputs = with pkgs; [ nodePackages.bower nodejs purescript ];
+  buildInputs = [ bower nodejs purescript ];
 
   projectDir = toString ./.;
 
@@ -29,5 +31,7 @@ stdenv.mkDerivation {
   shellHook = ''
     export PATH=$projectDir/scripts:$projectDir/node_modules/.bin:$PATH
     make node_modules
+    echo Run 'bower install' to create a local copy of bower packages.
+    echo Otherwise, make will copy a read only version from the nix store.
   '';
 }

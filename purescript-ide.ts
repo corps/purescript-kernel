@@ -151,7 +151,7 @@ export class PursIdeClient {
         clearTimeout(timeout);
         resolve();
       });
-      this.serverProcess.kill("SIGTERM");
+      setTimeout(() => this.serverProcess.kill("SIGTERM"), 10);
       return;
     });
   }
