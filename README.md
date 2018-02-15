@@ -75,7 +75,7 @@ If you plan to use nix, you'll want to run
 make packages
 ```
 
-To update the nix expressions to match latest versions from package.json and bower.json.
+to update the nix expressions to match latest versions from package.json and bower.json.
 
 
 Then, simply continue installation

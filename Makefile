@@ -36,6 +36,7 @@ node_modules:
 	npm install
 
 packages:
+	@echo "This may take a bit, please be patient."
 	upgrade-bower-packages
 	upgrade-node-packages
 
