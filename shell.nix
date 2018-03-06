@@ -17,7 +17,7 @@ bowerJsonFile ?  stdenv.mkDerivation {
 }:
 
 stdenv.mkDerivation {
-  name = "purescript-webpack-bundle";
+  name = "purescript-bundle";
   buildInputs = [ bower nodejs purescript ];
 
   projectDir = toString ./.;

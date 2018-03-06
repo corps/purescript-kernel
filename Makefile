@@ -1,8 +1,8 @@
 .DELETE_ON_ERROR:
 
-kernelName := purescript-webpack
-nodejs := $(shell which node)
-pursBin := $(shell dirname $(shell which purs))
+kernelName := purescript
+nodejs := $(shell /usr/bin/which node)
+pursBin := $(shell dirname $(shell /usr/bin/which purs))
 workspace := $(shell pwd)
 
 kernel: $(kernelName)/kernel $(kernelName)/kernel.json
@@ -18,7 +18,7 @@ $(kernelName)/kernel: output kernel.js
 $(kernelName)/kernel.json:
 	mkdir -p $(kernelName)
 	@echo '{'                                              > $(kernelName)/kernel.json
-	@echo '  "display_name": "Purescript + Webpack",'     >> $(kernelName)/kernel.json
+	@echo '  "display_name": "Purescript",'               >> $(kernelName)/kernel.json
 	@echo '  "language": "purescript",'                   >> $(kernelName)/kernel.json
 	@echo '  "argv": ["$(workspace)/$(kernelName)/kernel", "{connection_file}"]'   >> $(kernelName)/kernel.json
 	@echo '}'                                             >> $(kernelName)/kernel.json

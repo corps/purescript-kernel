@@ -2,7 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import {tmpdir} from "os";
 import {find as findPort} from "portastic";
-import {ChildProcess, spawn} from "child_process";
+import {runSpawn} from "./run-spawn";
+import {spawn, ChildProcess} from "child_process"
 
 export interface CompletionResult {
   textMatches: string[];
@@ -33,42 +34,6 @@ export interface RebuildRow {
 export interface RebuildResult {
   result: RebuildRow[]
   resultType: "success" | "error"
-}
-
-function runSpawn(
-  command: string,
-  args: string[],
-  cwd: string,
-  stdin: string = null
-): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    let ps = spawn(command, args, {cwd});
-    let stdout = "";
-    let stderr = "";
-    console.log("running", command, ...args, stdin);
-    ps.stderr.on("data", (data: Buffer) => {
-      stderr += data.toString("utf8");
-    });
-
-    ps.stdout.on("data", (data: Buffer) => {
-      stdout += data.toString("utf8");
-    });
-
-    ps.on("close", (status: number) => {
-      if (status) {
-        reject(new Error(command + " failed: " + stderr));
-        return;
-      }
-
-      console.log(stderr);
-      console.log(stdout);
-      resolve(stdout);
-    });
-
-    if (stdin != null) {
-      ps.stdin.write(stdin, "utf-8");
-    }
-  });
 }
 
 function mkTempDir(): Promise<string> {
@@ -287,7 +252,8 @@ export class PursIdeClient {
   }
 }
 
-const moduleRegex = /^module ([^\s]+) where/;
+const moduleRegex = /^module ([^\s]+) where/m;
+const browserModeRegex = /^-- runtime: browser/m;
 
 export class CellScript {
   constructor(public cellId: number, public contents: string) {}
@@ -297,6 +263,7 @@ export class CellScript {
   fileName = (this.moduleName ? this.moduleName : "temp") + ".purs";
   divId = "cell" + this.cellId;
   hasModule = !!this.moduleNameMatch;
+  isBrowser = !!this.contents.match(browserModeRegex);
 
   updated(newContents: string) {
     return new CellScript(this.cellId, newContents);

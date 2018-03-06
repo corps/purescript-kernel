@@ -18,6 +18,7 @@ import {
   CellScript,
   startServerAndClient,
 } from "./purescript-ide";
+import {runInNodeJs} from "./nodejs-exec";
 
 export interface JupyterConnection {
   signature_scheme: string;
@@ -172,6 +173,60 @@ export class Kernel {
     });
   }
 
+  handleRunBrowserJs(
+    request: Message<ExecuteContent>,
+    executingScript: CellScript
+  ) {
+    this.stream(request, "stdout", "Running webpack compile...\n");
+    return compile(this.pursIde.projectDir, executingScript).then(jsCode => {
+      request.respond(this.shellSocket, "execute_reply", {
+        status: "ok",
+        execution_count: this.curScript.cellId,
+        payload: [],
+        user_expressions: {},
+      });
+
+      request.respond(this.ioPubSocket, "execute_result", {
+        execution_count: this.curScript.cellId,
+        data: {
+          "text/html":
+            "<div id='" +
+            executingScript.divId +
+            "'></div><script>" +
+            jsCode +
+            "</script>",
+        },
+        metadata: {},
+      });
+    });
+  }
+
+  handleRunNodeJs(
+    request: Message<ExecuteContent>,
+    executingScript: CellScript
+  ) {
+    this.stream(request, "stdout", "Running nodejs process...\n");
+    return runInNodeJs(
+      this.pursIde.projectDir,
+      executingScript
+    ).then(output => {
+      request.respond(this.shellSocket, "execute_reply", {
+        status: "ok",
+        execution_count: this.curScript.cellId,
+        payload: [],
+        user_expressions: {},
+      });
+
+      request.respond(this.ioPubSocket, "execute_result", {
+        execution_count: this.curScript.cellId,
+        data: {
+          "text/plain": output,
+        },
+        metadata: {},
+      });
+    });
+  }
+
   handleExecuteRequest(request: Message<ExecuteContent>) {
     return this.prepareContentRequest(request).then(() => {
       let content = request.content;
@@ -189,28 +244,11 @@ export class Kernel {
       return this.pursIde
         .rebuild(executingScript)
         .then(() => {
-          return compile(this.pursIde.projectDir, executingScript);
-        })
-        .then(jsCode => {
-          request.respond(this.shellSocket, "execute_reply", {
-            status: "ok",
-            execution_count: this.curScript.cellId,
-            payload: [],
-            user_expressions: {},
-          });
-
-          request.respond(this.ioPubSocket, "execute_result", {
-            execution_count: this.curScript.cellId,
-            data: {
-              "text/html":
-                "<div id='" +
-                executingScript.divId +
-                "'></div><script>" +
-                jsCode +
-                "</script>",
-            },
-            metadata: {},
-          });
+          if (executingScript.isBrowser) {
+            return this.handleRunBrowserJs(request, executingScript);
+          } else {
+            return this.handleRunNodeJs(request, executingScript);
+          }
         })
         .catch(e => {
           let err = {
@@ -241,7 +279,7 @@ export class Kernel {
         this.shellSocket,
         "kernel_info_reply",
         {
-          implementation: "purescript-webpack-kernel",
+          implementation: "purescript-kernel",
           implementation_version: JSON.parse(
             fs.readFileSync(path.join(__dirname, "package.json"), "utf-8")
           ).version,
@@ -265,7 +303,7 @@ export class Kernel {
       this.reportExecutionState(request, "busy");
       let finish = this.reportExecutionState.bind(this, request, "idle");
       handler.call(this, request).then(finish, (e: Error) => {
-        if(e) console.error(e, e.stack);
+        if (e) console.error(e, e.stack);
         finish();
       });
     } catch (e) {

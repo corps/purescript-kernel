@@ -1,14 +1,17 @@
-# purescript-webpack-kernel
+# purescript-kernel
 
-A jupyter (ipython) kernel that generates and runs browser javascript from purescript
-via webpack bundling.
+A jupyter (ipython) kernel that for Purescript in the browser and in NodeJS.
 
-Notably, because this bundles and runs inside the web jupyter client, it does not behave like
-a traditional repl.  The backing process is not a psci, but rather each cell is considered
-separate module files in a temporary workspace, whose main will be invoked inside the browser
-when run.
+Notably, this kernel treats every cell as a separate module, rather than lines entered in
+`psci` or similar REPL.  Thus, this kernel feels more like a small, easy to deploy web
+IDE.
 
-This is mostly useful for writing simple browser demonstrations with purescript.
+Packages cannot be installed at runtime currently, although they can be configured during
+installation.
+
+Cells can be executed in browser or NodeJS mode freely by simply including a comment indicating
+the expected runtime.  In browser mode, modules will be compiled via webpack and can be provided
+a dom node reference to the inserted cell.
 
 ## Installation
 
@@ -43,7 +46,7 @@ It's possible to install this kernel without nix fairly easily.
 First, you'll want to install `node`, `purs`, and `bower` yourself by hand.
 
 You will also need to determine your destination KERNELS_DIR and substitute it below.
-See the [relevant jupyter documentation](https://jupyter-client.readthedocs.io/en/stable/kernels.html#kernel-specs) 
+See the [relevant jupyter documentation](https://jupyter-client.readthedocs.io/en/stable/kernels.html#kernel-specs)
 on possible directories you can use.
 
 ```
@@ -84,3 +87,12 @@ Then, simply continue installation
 make
 make KERNELS_DIR=kernels-dir-here install
 ```
+
+### Running in browser
+
+By default, purescript-kernel will execute as a NodeJS module.  You may include the comment
+line matching `/^-- runtime: browser/m` anywhere in your script.
+
+When running in browser mode, you may also define a `mainWithDivId` function.  If defined, it
+will receive a plain div dom element as an argument, and otherwise behave as per normal `main`. 
+This div will correspond to the cell that the script is executed in.
