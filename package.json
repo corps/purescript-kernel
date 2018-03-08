@@ -18,7 +18,6 @@
     "@types/webpack": "^3.0.1",
     "jmp": "^0.7.5",
     "memory-fs": "^0.4.1",
-    "portastic": "^1.0.1",
     "webpack": "^3.0.0",
     "zeromq": "^4.5.0"
   },

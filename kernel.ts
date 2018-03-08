@@ -39,8 +39,9 @@ export class Kernel {
   constructor(public config: KernelConfig) {}
 
   start() {
-    this.restart();
-    this.bindSockets();
+    this.restart().then(() => {
+      this.bindSockets();
+    });
   }
 
   scheme = this.config.connection.signature_scheme.slice("hmac-".length);
@@ -389,10 +390,6 @@ export class Kernel {
 
     return this.nextIde;
   }
-}
-
-if (!process.env.DEBUG) {
-  console.log = function() {};
 }
 
 let workingDir = process.argv[2];

@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
 import {tmpdir} from "os";
-import {find as findPort} from "portastic";
 import {runSpawn} from "./run-spawn";
-import {spawn, ChildProcess} from "child_process"
+import {spawn, ChildProcess} from "child_process";
+import * as net from "net";
 
 export interface CompletionResult {
   textMatches: string[];
@@ -16,24 +16,35 @@ export interface InspectResult {
 }
 
 export interface Position {
-  startLine: number
-  endLine: number
-  startColumn: number
-  endColumn: number
+  startLine: number;
+  endLine: number;
+  startColumn: number;
+  endColumn: number;
 }
 
 export interface RebuildRow {
-  suggestion: { replaceRange: Position, replacement: string } | void;
-  moduleName: string
-  errorLink: string
-  errorCode: string
-  message: string
-  position: Position | void
+  suggestion: {replaceRange: Position; replacement: string} | void;
+  moduleName: string;
+  errorLink: string;
+  errorCode: string;
+  message: string;
+  position: Position | void;
 }
 
 export interface RebuildResult {
-  result: RebuildRow[]
-  resultType: "success" | "error"
+  result: RebuildRow[];
+  resultType: "success" | "error";
+}
+
+function findRandomPort(): Promise<number> {
+  return new Promise<number>((resolve, reject) => {
+    const server = net.createServer().listen(0, () => {
+      const port = server.address().port;
+      server.close(() => resolve(port));
+    });
+
+    server.on("error", reject);
+  });
 }
 
 function mkTempDir(): Promise<string> {
@@ -69,11 +80,7 @@ export function startServerAndClient(
       projectDir
     )
       .then(() => {
-        return findPort({min: 4250, max: 6000});
-      })
-      .then(ports => {
-        if (!ports.length) throw new Error("No ports found!");
-        return ports[0];
+        return findRandomPort();
       })
       .then(port => {
         let serverPs = spawn(
@@ -252,7 +259,7 @@ export class PursIdeClient {
   }
 }
 
-const moduleRegex = /^module ([^\s]+) where/m;
+const moduleRegex = /^module\s+([^\s]+)\s+.*where\s*$/m;
 const browserModeRegex = /^-- runtime: browser/m;
 
 export class CellScript {

@@ -40,13 +40,13 @@ let
         sha512 = "3sbazn0qja6zbm8vmx82n6gq6k2x7l3lfvpi45sn7aikm6m8k7c8g4myyb1f5vbiapz7bg768i93xfmy2nrg8z84p3wprv5c4s82f1n";
       };
     };
-    "@types/webpack-3.8.8" = {
+    "@types/webpack-3.8.9" = {
       name = "_at_types_slash_webpack";
       packageName = "@types/webpack";
-      version = "3.8.8";
+      version = "3.8.9";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@types/webpack/-/webpack-3.8.8.tgz";
-        sha512 = "2n6jkw5bzpxwycb03a8r22c2wn4kjb6sw2znahb2hji590pccdy6s30i7d14j38bbx2r3q2hwdn6rcs9x4qdzsxyxkz8dkvjhw51755";
+        url = "https://registry.npmjs.org/@types/webpack/-/webpack-3.8.9.tgz";
+        sha512 = "26g5j3bjg563msdh5jkin08rz4h1iw1w06mc6zq1kb1h8rb6wzf438b8a5rrycp7mhwnk9p1724clv1gwhfn0bvzvb04nfvzll2dy99";
       };
     };
     "acorn-4.0.13" = {
@@ -58,13 +58,13 @@ let
         sha1 = "105495ae5361d697bd195c825192e1ad7f253787";
       };
     };
-    "acorn-5.5.0" = {
+    "acorn-5.5.3" = {
       name = "acorn";
       packageName = "acorn";
-      version = "5.5.0";
+      version = "5.5.3";
       src = fetchurl {
-        url = "https://registry.npmjs.org/acorn/-/acorn-5.5.0.tgz";
-        sha512 = "3zaj6p3hwrmg5i65dg7q0kk9224w6fd404k830k922wn3mn4x95c48zrmgg4n85xigg904syrzbh5nca94aaf4anfjpjm9vbpfgkfba";
+        url = "https://registry.npmjs.org/acorn/-/acorn-5.5.3.tgz";
+        sha512 = "0wmwifv9mm9gqcir9zbz5y1gl1rgwwprqh1f3csjydj8kf3byca7img3rh5b54kbnw3ik34bc6ynbnzsd01zmxrsfdvjv95hn84rpld";
       };
     };
     "acorn-dynamic-import-2.0.2" = {
@@ -290,15 +290,6 @@ let
       src = fetchurl {
         url = "https://registry.npmjs.org/bl/-/bl-1.2.1.tgz";
         sha1 = "cac328f7bee45730d404b692203fcb590e172d5e";
-      };
-    };
-    "bluebird-2.11.0" = {
-      name = "bluebird";
-      packageName = "bluebird";
-      version = "2.11.0";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/bluebird/-/bluebird-2.11.0.tgz";
-        sha1 = "534b9033c022c9579c56ba3b3e5a5caafbb650e1";
       };
     };
     "bn.js-4.11.8" = {
@@ -533,15 +524,6 @@ let
       src = fetchurl {
         url = "https://registry.npmjs.org/collection-visit/-/collection-visit-1.0.0.tgz";
         sha1 = "4bc0373c164bc3291b4d368c829cf1a80a59dca0";
-      };
-    };
-    "commander-2.14.1" = {
-      name = "commander";
-      packageName = "commander";
-      version = "2.14.1";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/commander/-/commander-2.14.1.tgz";
-        sha512 = "11j7mwxfdnhi3yfkhxjvfkg1mzdsi3wq7iygma6ksmj1f7hfs0z8rpfcysqmy85f67mqvzhda3w1lyy1jqxxm31k799sazbipm7b17r";
       };
     };
     "component-emitter-1.2.1" = {
@@ -1219,13 +1201,13 @@ let
         sha1 = "d2745701025a6c775a6c545793ed502fc0c649a1";
       };
     };
-    "hosted-git-info-2.5.0" = {
+    "hosted-git-info-2.6.0" = {
       name = "hosted-git-info";
       packageName = "hosted-git-info";
-      version = "2.5.0";
+      version = "2.6.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/hosted-git-info/-/hosted-git-info-2.5.0.tgz";
-        sha512 = "355g980qsk8k9hkv60z58llbvpscjl5yqkh4wx719s8jcq2swzn4ynzinj8azmvdgs10r22wb297rmixh9vvsml55sbysdf2i8ipn54";
+        url = "https://registry.npmjs.org/hosted-git-info/-/hosted-git-info-2.6.0.tgz";
+        sha512 = "1vi4baj130s7mladvb4rad9ka8nqzcwws9i1zaaplp0fdrmnfwjfbpq01cghha2c2frd2f900f07awglhbbyym0bpwmrph0hhhf11ll";
       };
     };
     "https-browserify-1.0.0" = {
@@ -1696,13 +1678,13 @@ let
         sha1 = "30a0b2da38f73770e8294a0d22e6625ed77d0097";
       };
     };
-    "lru-cache-4.1.1" = {
+    "lru-cache-4.1.2" = {
       name = "lru-cache";
       packageName = "lru-cache";
-      version = "4.1.1";
+      version = "4.1.2";
       src = fetchurl {
-        url = "https://registry.npmjs.org/lru-cache/-/lru-cache-4.1.1.tgz";
-        sha512 = "1xz91sizgyzh8plz5jx1labzpygapm6xy3qpxriaj00yvnhy4lnmhqcb20qln4lh80c5g3yzp4j5i6g63njq1r5sl9c0zlkh9xjk2xb";
+        url = "https://registry.npmjs.org/lru-cache/-/lru-cache-4.1.2.tgz";
+        sha512 = "1whynbvy3pbwcpkxk6rqhsymj2h3bh7p13nfhs9ch6hfx96vrh86j7vd4lqcaqjy5dhsfjps6sh2wqndh269wjz42khbh6339g9a1y2";
       };
     };
     "map-cache-0.2.2" = {
@@ -2171,15 +2153,6 @@ let
       src = fetchurl {
         url = "https://registry.npmjs.org/pify/-/pify-2.3.0.tgz";
         sha1 = "ed141a6ac043a849ea588498e7dca8b15330e90c";
-      };
-    };
-    "portastic-1.0.1" = {
-      name = "portastic";
-      packageName = "portastic";
-      version = "1.0.1";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/portastic/-/portastic-1.0.1.tgz";
-        sha1 = "1c9805d43fae8f6a40cf0dbc7794091a2e9d0d2a";
       };
     };
     "posix-character-classes-0.1.1" = {
@@ -3201,8 +3174,8 @@ let
       sources."@types/node-8.9.4"
       sources."@types/tapable-0.2.4"
       sources."@types/uglify-js-2.6.30"
-      sources."@types/webpack-3.8.8"
-      sources."acorn-5.5.0"
+      sources."@types/webpack-3.8.9"
+      sources."acorn-5.5.3"
       (sources."acorn-dynamic-import-2.0.2" // {
         dependencies = [
           sources."acorn-4.0.13"
@@ -3240,7 +3213,6 @@ let
       sources."big.js-3.2.0"
       sources."binary-extensions-1.11.0"
       sources."bl-1.2.1"
-      sources."bluebird-2.11.0"
       sources."bn.js-4.11.8"
       sources."brace-expansion-1.1.11"
       (sources."braces-2.3.1" // {
@@ -3290,7 +3262,6 @@ let
       sources."cliui-2.1.0"
       sources."code-point-at-1.1.0"
       sources."collection-visit-1.0.0"
-      sources."commander-2.14.1"
       sources."component-emitter-1.2.1"
       sources."concat-map-0.0.1"
       sources."console-browserify-1.1.0"
@@ -3374,7 +3345,7 @@ let
       sources."hash-base-3.0.4"
       sources."hash.js-1.1.3"
       sources."hmac-drbg-1.0.1"
-      sources."hosted-git-info-2.5.0"
+      sources."hosted-git-info-2.6.0"
       sources."https-browserify-1.0.0"
       sources."ieee754-1.1.8"
       sources."indexof-0.0.1"
@@ -3414,7 +3385,7 @@ let
       sources."locate-path-2.0.0"
       sources."lodash-4.17.5"
       sources."longest-1.0.1"
-      sources."lru-cache-4.1.1"
+      sources."lru-cache-4.1.2"
       sources."map-cache-0.2.2"
       sources."map-visit-1.0.0"
       sources."md5.js-1.3.4"
@@ -3466,7 +3437,6 @@ let
       sources."path-type-2.0.0"
       sources."pbkdf2-3.0.14"
       sources."pify-2.3.0"
-      sources."portastic-1.0.1"
       sources."posix-character-classes-0.1.1"
       sources."prebuild-install-2.5.1"
       sources."process-0.11.10"
